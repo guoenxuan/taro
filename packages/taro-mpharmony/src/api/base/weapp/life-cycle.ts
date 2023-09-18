@@ -1,33 +1,31 @@
 import Taro from '@tarojs/api'
 
-function getReferrerInfo () {
-  let referrerInfo
+function getAppLaunchInfo () {
+  let launchInfo
   try {
     // @ts-ignore
     const callerBundle = bundleMap.get('callerBundle')
-    // @ts-ignore
-    const callerParams = bundleMap.get('callerParams')
 
-    referrerInfo = {
-      referrerInfo: {
-        appId: callerBundle || '',
-        extraData: JSON.parse(callerParams),
-      },
+    launchInfo = {
+      referrerInfo: callerBundle
+        ? {
+          appId: callerBundle || '',
+        }
+        : {},
+      apiCategory: 'default',
     }
   } catch (err) {
-    referrerInfo = {
-      referrerInfo: {
-        appId: '',
-        extraData: {},
-      },
+    launchInfo = {
+      referrerInfo: {},
+      apiCategory: 'default',
     }
   }
-  return referrerInfo
+  return launchInfo
 }
 
 let launchOptions
 function initLaunchOptions (options = {}) {
-  Object.assign(options, getReferrerInfo())
+  Object.assign(options, getAppLaunchInfo())
   launchOptions = options
 }
 
