@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { Current, safeExecute } from '@tarojs/runtime'
 
 export * from './ad'
 export * from './ai'
@@ -32,3 +33,11 @@ Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundCol
     window.native.setNavigationStyle && window.native.setNavigationStyle(style, textStyle, backgroundColor)
   }
 })
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('visibilitychange', () => {
+    const isDocumentShown = document.visibilityState !== 'hidden'
+    const pagePath = Current.router?.$taroPath
+    pagePath && safeExecute(pagePath, isDocumentShown ? 'onShow' : 'onHide', isDocumentShown ? {} : undefined)
+  })
+}
