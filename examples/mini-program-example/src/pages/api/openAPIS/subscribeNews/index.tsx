@@ -15,23 +15,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'requestSubscribeMessage',
-        inputData: {
-          tmplIds: ['OTHER_TYPES', 'CONTENT_INFORMATION', 'SERVICE_INFORMATION', 'SOCIAL_COMMUNICATION'],
-        },
-        func: (apiIndex, data) => {
-          Taro.requestSubscribeMessage({
-            ...data,
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
-            },
-          })
-        },
+        func: null,
       },
       {
         id: 'requestSubscribeDeviceMessage',
