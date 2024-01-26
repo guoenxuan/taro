@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
-import { taroCallbackMap } from 'src/utils/callbakMap'
+
+import native from '../../NativeApi'
 
 /**
  * 取消用户主动截屏事件监听
@@ -19,13 +20,7 @@ export const offUserCaptureScreen: typeof Taro.offUserCaptureScreen = (callback)
   }
 
   try {
-    if (taroCallbackMap.has(callback)) {
-      // @ts-ignore
-      native.offUserCaptureScreen(taroCallbackMap.get(callback))
-      taroCallbackMap.delete(callback)
-    } else {
-      console.error('Invalid callback.')
-    }
+    native.offUserCaptureScreen(callback)
   } catch (exception) {
     console.error(JSON.stringify(exception))
   }
