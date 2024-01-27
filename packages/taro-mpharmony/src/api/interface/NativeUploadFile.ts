@@ -22,7 +22,7 @@ export class NativeUploadFile implements Taro.UploadTask {
   }
 
   offProgressUpdate (option: any): void {
-    native.offProgressUpdate({ listener: option, taskId: this.taskID })
+    native.offProgressUpdate(option, this.taskID)
   }
 
   onHeadersReceived (option: any): void {
@@ -30,6 +30,6 @@ export class NativeUploadFile implements Taro.UploadTask {
   }
 
   onProgressUpdate (option: any): void {
-    native.onProgressUpdate({ listener: option, taskId: this.taskID })
+    native.onProgressUpdate(option, this.taskID)
   }
 }

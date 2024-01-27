@@ -269,7 +269,7 @@ class NativeApi {
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: true })
-  offProgressUpdate (option: any): any {
+  offProgressUpdate (option: any, _: number): any {
     return option
   }
 
@@ -279,7 +279,7 @@ class NativeApi {
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: false })
-  onProgressUpdate (option: any): any {
+  onProgressUpdate (option: any, _: number): any {
     return option
   }
 
