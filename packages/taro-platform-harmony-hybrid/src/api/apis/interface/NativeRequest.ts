@@ -7,6 +7,7 @@ export class NativeRequest implements Taro.RequestTask<any> {
   readonly className: string = 'NativeRequest'
   readonly [Symbol.toStringTag]: string = ''
   private objectId: number
+  private headersReceivedSet = new Set<any>()
   constructor (option: any) {
     if (option?.data instanceof ArrayBuffer) {
       option.bufBase64 = fromByteArray(new Uint8Array(option.data))
@@ -35,12 +36,36 @@ export class NativeRequest implements Taro.RequestTask<any> {
     this.destroy()
   }
 
+  headersReceivedListener (args) {
+    for (const listener of this.headersReceivedSet.keys()) {
+      listener(args)
+    }
+  }
+
   onHeadersReceived (option: any): void {
-    ClassInstanceManager.getInstance().setInstanceFunctionAsync(option, this.className, 'onHeadersReceived', this.objectId)
+    if (this.headersReceivedSet.size === 0) {
+      ClassInstanceManager.getInstance().setInstanceFunctionAsync(
+        this.headersReceivedListener.bind(this),
+        this.className,
+        'onHeadersReceived',
+        this.objectId,
+        'HeadersReceived',
+      )
+    }
+    this.headersReceivedSet.add(option)
   }
 
   offHeadersReceived (option: any): void {
-    ClassInstanceManager.getInstance().setInstanceFunction(option, this.className, 'offHeadersReceived', this.objectId)
+    this.headersReceivedSet.delete(option)
+    if (this.headersReceivedSet.size === 0) {
+      ClassInstanceManager.getInstance().setInstanceFunction(
+        {},
+        this.className,
+        'offHeadersReceived',
+        this.objectId,
+        'HeadersReceived',
+      )
+    }
   }
 
   catch<TResult = never> (

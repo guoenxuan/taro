@@ -42,23 +42,27 @@ export class ClassInstanceManager {
     })
   }
 
-  setInstanceFunction (option: any, className: string, name: string, objectId: number): any {
+  setInstanceFunction (option: any, className: string, name: string, objectId: number, listenerSubject?: string, listenerSwitch?: 'on'|'off'): any {
     return native.callInstance({
       option: option,
       className: className,
       type: 'function',
       property: name,
-      objectId: objectId
+      objectId: objectId,
+      listenerSubject,
+      listenerSwitch,
     })
   }
 
-  setInstanceFunctionAsync (option: any, className: string, name: string, objectId: number): any {
+  setInstanceFunctionAsync (option: any, className: string, name: string, objectId: number, listenerSubject?: string, listenerSwitch?: 'on'|'off'): any {
     return native.callInstanceAsync({
       option: option,
       className: className,
       type: 'function',
       property: name,
-      objectId: objectId
+      objectId: objectId,
+      listenerSubject,
+      listenerSwitch,
     })
   }
 
